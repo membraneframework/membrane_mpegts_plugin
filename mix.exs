@@ -47,6 +47,7 @@ defmodule Membrane.MPEGTS.MixProject do
       {:membrane_aac_plugin, "~> 0.19.0"},
       {:membrane_h26x_plugin, "~> 0.10.4"},
       {:membrane_realtimer_plugin, "~> 0.10.1", only: :test},
+      {:membrane_timestamp_queue, "~> 0.2.2"},
       {:crc, "~> 0.10"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:dialyxir, ">= 0.0.0", only: :dev, runtime: false},
