@@ -1,6 +1,6 @@
 Mix.install([
   {:membrane_mpegts_plugin, path: "../"},
-  :membrane_file_plugin
+  {:membrane_file_plugin, "~> 0.17.2"}
 ])
 
 defmodule MuxingExample do
