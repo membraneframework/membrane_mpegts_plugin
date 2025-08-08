@@ -23,7 +23,7 @@ defmodule MuxingExample do
       |> via_in(:video_input)
       |> get_child(:muxer)
     ]
-    
+
     pid = RCPipeline.start_link!()
     RCPipeline.exec_actions(pid, spec: spec)
     RCPipeline.subscribe(pid, %EndOfStream{})
