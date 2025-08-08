@@ -1,14 +1,14 @@
-defmodule Membrane.MPEG.TS.MixProject do
+defmodule Membrane.MPEGTS.MixProject do
   use Mix.Project
 
-  @version "0.4.0"
+  @version "0.5.0"
   @github_url "https://github.com/membraneframework/membrane_mpegts_plugin"
 
   def project do
     [
       app: :membrane_mpegts_plugin,
       version: @version,
-      elixir: "~> 1.7",
+      elixir: "~> 1.13",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -43,12 +43,15 @@ defmodule Membrane.MPEG.TS.MixProject do
 
   defp deps do
     [
-      {:membrane_core, "~> 0.8.0"},
-      {:ex_doc, "~> 0.23", only: :dev, runtime: false},
-      {:dialyxir, "~> 1.0.0", only: [:dev], runtime: false},
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:membrane_file_plugin, "~> 0.7.0", only: :test},
-      {:excoveralls, "~> 0.13", only: :test}
+      {:membrane_core, "~> 1.2.3"},
+      {:membrane_aac_plugin, "~> 0.19.0"},
+      {:membrane_h26x_plugin, "~> 0.10.4"},
+      {:membrane_realtimer_plugin, "~> 0.10.1", only: :test},
+      {:membrane_timestamp_queue, "~> 0.2.2"},
+      {:crc, "~> 0.10"},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:dialyxir, ">= 0.0.0", only: :dev, runtime: false},
+      {:credo, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 
@@ -68,7 +71,7 @@ defmodule Membrane.MPEG.TS.MixProject do
       main: "readme",
       extras: ["README.md"],
       source_ref: "v#{@version}",
-      nest_modules_by_prefix: [Membrane.MPEG.TS]
+      nest_modules_by_prefix: [Membrane.MPEGTS]
     ]
   end
 end
