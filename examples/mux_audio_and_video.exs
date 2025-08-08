@@ -25,8 +25,8 @@ defmodule MuxingExample do
     ]
 
     pid = RCPipeline.start_link!()
-    RCPipeline.exec_actions(pid, spec: spec)
     RCPipeline.subscribe(pid, %EndOfStream{})
+    RCPipeline.exec_actions(pid, spec: spec)
     RCPipeline.await_end_of_stream(pid, :sink, :input)
     RCPipeline.terminate(pid)
   end
