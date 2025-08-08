@@ -153,3 +153,5 @@ bundlex.sh
 bundlex.bat
 
 # End of https://www.gitignore.io/api/c,vim,linux,macos,elixir,windows,visualstudiocode
+
+examples/*.ts
