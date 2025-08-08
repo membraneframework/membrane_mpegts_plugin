@@ -21,14 +21,7 @@ end
 
 The docs can be found at [HexDocs](https://hexdocs.pm/membrane_mpegts_plugin).
 
-## Abbreviations
-
-PAT - Program Association Table
-PMT - Program Mapping Table
-
 ## Usage
-
-TODO
 
 ## Copyright and License
 
