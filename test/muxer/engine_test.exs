@@ -6,7 +6,7 @@ defmodule Membrane.MPEGTS.Muxer.EngineTest do
 
   test "if the MPEG TS muxes H264 stream" do
     input_path = "test/fixtures/bbb.h264"
-    reference_path = "test/fixtures/reference_only_video.ts"
+    reference_path = "test/fixtures/engine/reference_only_video.ts"
 
     video_frames = get_video_frames(input_path, 30)
     {payload1, state} = Engine.new()
@@ -25,7 +25,7 @@ defmodule Membrane.MPEGTS.Muxer.EngineTest do
   test "if the MPEG TS muxes H264 and AAC streams" do
     input_audio_path = "test/fixtures/bbb.aac"
     input_video_path = "test/fixtures/bbb.h264"
-    reference_path = "test/fixtures/reference_with_audio_and_video.ts"
+    reference_path = "test/fixtures/engine/reference_with_audio_and_video.ts"
 
     audio_frames = get_audio_frames(input_audio_path, 1024, 44_100)
     video_frames = get_video_frames(input_video_path, 25)

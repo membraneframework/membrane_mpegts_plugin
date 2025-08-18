@@ -21,14 +21,22 @@ end
 
 The docs can be found at [HexDocs](https://hexdocs.pm/membrane_mpegts_plugin).
 
-## Abbreviations
-
-PAT - Program Association Table
-PMT - Program Mapping Table
-
 ## Usage
+For usage examples, visit `examples/` directory:
+```
+cd examples/
+```
 
-TODO
+There you can run an example of muxing AAC audio and H.264 video read from files:
+```
+elixir examples/mux_audio_and_video.exs
+```
+
+When the command terminates, you should be able to play the result `out.ts` file e.g.
+with the use of `ffplay` command:
+```
+ffplay out.ts
+```
 
 ## Copyright and License
 
