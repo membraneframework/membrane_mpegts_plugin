@@ -1,6 +1,8 @@
 defmodule Membrane.MPEGTS.Muxer.PES do
   @moduledoc false
 
+  @max_pes_packet_length 0xFFFF
+
   @doc """
   Serializes Packetized Elementry Stream.
 
@@ -37,7 +39,7 @@ defmodule Membrane.MPEGTS.Muxer.PES do
 
     # Common header
     packet_start_code_prefix = 1
-    pes_packet_length = byte_size(es_specific_header) + byte_size(payload)
+    pes_packet_length = encode_packet_length(byte_size(es_specific_header) + byte_size(payload))
     stream_id = pid_to_stream_id(pid)
 
     common_header =
@@ -45,6 +47,9 @@ defmodule Membrane.MPEGTS.Muxer.PES do
 
     common_header <> es_specific_header <> payload
   end
+
+  defp encode_packet_length(length) when length <= @max_pes_packet_length, do: length
+  defp encode_packet_length(_length), do: 0
 
   defp pid_to_stream_id(pid) do
     # according to table 2-22
