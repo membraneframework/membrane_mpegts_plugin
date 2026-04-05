@@ -1,6 +1,8 @@
 defmodule Membrane.MPEGTS.Muxer.PES do
   @moduledoc false
 
+  @type track :: :audio | :video
+
   @doc """
   Serializes Packetized Elementry Stream.
 
@@ -10,8 +12,8 @@ defmodule Membrane.MPEGTS.Muxer.PES do
 
   The provided timestamps need to be represented with 90kHz clock rate.
   """
-  @spec serialize(binary(), pos_integer(), non_neg_integer(), non_neg_integer()) :: binary()
-  def serialize(payload, pid, pts, dts) do
+  @spec serialize(binary(), track(), non_neg_integer() | nil, non_neg_integer() | nil) :: binary()
+  def serialize(payload, track_type, pts, dts) when track_type in [:audio, :video] do
     # Elementary stream specific header
     pes_scrambling_control = 0
     pes_priority = 0
@@ -38,18 +40,16 @@ defmodule Membrane.MPEGTS.Muxer.PES do
     # Common header
     packet_start_code_prefix = 1
     pes_packet_length = byte_size(es_specific_header) + byte_size(payload)
-    stream_id = pid_to_stream_id(pid)
+    stream_id = track_type_to_stream_id(track_type)
 
     common_header =
-      <<packet_start_code_prefix::24, stream_id::binary-size(1), pes_packet_length::16>>
+      <<packet_start_code_prefix::24, stream_id::8, pes_packet_length::16>>
 
     common_header <> es_specific_header <> payload
   end
 
-  defp pid_to_stream_id(pid) do
-    # according to table 2-22
-    <<1::1, 1::1, 1::1, 0::1, pid::4>>
-  end
+  defp track_type_to_stream_id(:audio), do: 0xC0
+  defp track_type_to_stream_id(:video), do: 0xE0
 
   defp encode_timestamps(pts, dts) when pts == nil or dts == nil do
     <<>>

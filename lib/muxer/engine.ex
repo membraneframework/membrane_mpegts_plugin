@@ -64,7 +64,7 @@ defmodule Membrane.MPEGTS.Muxer.Engine do
     {ts_packets, ts_state} =
       PES.serialize(
         frame,
-        pid,
+        track_type,
         pts,
         dts
       )
