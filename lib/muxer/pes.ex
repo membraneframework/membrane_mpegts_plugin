@@ -12,8 +12,14 @@ defmodule Membrane.MPEGTS.Muxer.PES do
 
   The provided timestamps need to be represented with 90kHz clock rate.
   """
-  @spec serialize(binary(), pos_integer(), non_neg_integer(), non_neg_integer()) :: binary()
-  def serialize(payload, pid, pts, dts) do
+  @spec serialize(
+          binary(),
+          pos_integer(),
+          Membrane.MPEGTS.Muxer.Engine.track(),
+          non_neg_integer() | nil,
+          non_neg_integer() | nil
+        ) :: binary()
+  def serialize(payload, pid, track_type, pts, dts) do
     # Elementary stream specific header
     pes_scrambling_control = 0
     pes_priority = 0
@@ -39,7 +45,10 @@ defmodule Membrane.MPEGTS.Muxer.PES do
 
     # Common header
     packet_start_code_prefix = 1
-    pes_packet_length = encode_packet_length(byte_size(es_specific_header) + byte_size(payload))
+
+    packet_length = byte_size(es_specific_header) + byte_size(payload)
+    pes_packet_length = encode_packet_length(packet_length, track_type)
+
     stream_id = pid_to_stream_id(pid)
 
     common_header =
@@ -48,8 +57,15 @@ defmodule Membrane.MPEGTS.Muxer.PES do
     common_header <> es_specific_header <> payload
   end
 
-  defp encode_packet_length(length) when length <= @max_pes_packet_length, do: length
-  defp encode_packet_length(_length), do: 0
+  defp encode_packet_length(length, _track_type) when length <= @max_pes_packet_length, do: length
+  defp encode_packet_length(_length, :video), do: 0
+
+  defp encode_packet_length(length, track_type) do
+    raise ArgumentError,
+          "PES packet length #{length} exceeds #{@max_pes_packet_length}, " <>
+            "and using unspecified PES packet length is only allowed for video streams, " <>
+            "got: #{inspect(track_type)}"
+  end
 
   defp pid_to_stream_id(pid) do
     # according to table 2-22
