@@ -9,7 +9,7 @@ defmodule Membrane.MPEGTS.Muxer.PESTest do
     payload = :binary.copy(<<0>>, 0xFFFF)
 
     <<0x00, 0x00, 0x01, _stream_id, pes_packet_length::16, _rest::binary>> =
-      PES.serialize(payload, 32, :video, 90_000, 90_000)
+      PES.serialize(payload, :video, 90_000, 90_000)
 
     assert pes_packet_length == 0
   end
@@ -18,7 +18,7 @@ defmodule Membrane.MPEGTS.Muxer.PESTest do
     payload = :binary.copy(<<0>>, 0xFFFF)
 
     assert_raise ArgumentError, ~r/only allowed for video streams/, fn ->
-      PES.serialize(payload, 32, :audio, 90_000, 90_000)
+      PES.serialize(payload, :audio, 90_000, 90_000)
     end
   end
 
@@ -26,8 +26,22 @@ defmodule Membrane.MPEGTS.Muxer.PESTest do
     payload = :binary.copy(<<0>>, 100)
 
     <<0x00, 0x00, 0x01, _stream_id, pes_packet_length::16, _rest::binary>> =
-      PES.serialize(payload, 32, :audio, 90_000, 90_000)
+      PES.serialize(payload, :audio, 90_000, 90_000)
 
     assert pes_packet_length == 113
+  end
+
+  test "audio PES packets use the audio stream id" do
+    <<0x00, 0x00, 0x01, stream_id, _length::16, _rest::binary>> =
+      PES.serialize(<<1, 2, 3>>, :audio, 90_000, 90_000)
+
+    assert stream_id == 0xC0
+  end
+
+  test "video PES packets use the video stream id" do
+    <<0x00, 0x00, 0x01, stream_id, _length::16, _rest::binary>> =
+      PES.serialize(<<1, 2, 3>>, :video, 90_000, 90_000)
+
+    assert stream_id == 0xE0
   end
 end

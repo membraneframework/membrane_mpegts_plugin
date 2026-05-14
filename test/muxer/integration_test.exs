@@ -38,7 +38,7 @@ defmodule Membrane.MPEGTS.Muxer.IntegrationTest do
     assert_end_of_stream(pid, :sink)
     Pipeline.terminate(pid)
 
-    assert File.read!(result_path) == File.read!(@ref_audio_and_video)
+    assert_or_snapshot(result_path, @ref_audio_and_video)
   end
 
   @tag :tmp_dir
@@ -61,6 +61,14 @@ defmodule Membrane.MPEGTS.Muxer.IntegrationTest do
     assert_end_of_stream(pid, :sink)
     Pipeline.terminate(pid)
 
-    assert File.read!(result_path) == File.read!(@ref_only_video)
+    assert_or_snapshot(result_path, @ref_only_video)
+  end
+
+  defp assert_or_snapshot(result_path, reference_path) do
+    if System.get_env("UPDATE_SNAPSHOTS") do
+      File.cp!(result_path, reference_path)
+    else
+      assert File.read!(result_path) == File.read!(reference_path)
+    end
   end
 end

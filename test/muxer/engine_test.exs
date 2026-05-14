@@ -19,7 +19,7 @@ defmodule Membrane.MPEGTS.Muxer.EngineTest do
 
     payload3 = Enum.join(packets)
     payload = payload1 <> payload2 <> payload3
-    assert payload == File.read!(reference_path)
+    assert_or_snapshot(payload, reference_path)
   end
 
   test "if the MPEG TS muxes H264 and AAC streams" do
@@ -44,7 +44,15 @@ defmodule Membrane.MPEGTS.Muxer.EngineTest do
 
     payload4 = Enum.join(packets)
     payload = payload1 <> payload2 <> payload3 <> payload4
-    assert payload == File.read!(reference_path)
+    assert_or_snapshot(payload, reference_path)
+  end
+
+  defp assert_or_snapshot(payload, reference_path) do
+    if System.get_env("UPDATE_SNAPSHOTS") do
+      File.write!(reference_path, payload)
+    else
+      assert payload == File.read!(reference_path)
+    end
   end
 
   defp get_audio_frames(input_path, samples_per_frame, sampling_frequency) do
