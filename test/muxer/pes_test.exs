@@ -6,7 +6,7 @@ defmodule Membrane.MPEGTS.Muxer.PESTest do
   alias Membrane.MPEGTS.Muxer.PES
 
   test "oversized video PES packets use zero packet length" do
-    payload = :binary.copy(<<0>>, 0xFFFF)
+    payload = :binary.copy(<<0>>, 0xFFFFFF)
 
     <<0x00, 0x00, 0x01, _stream_id, pes_packet_length::16, _rest::binary>> =
       PES.serialize(payload, :video, 90_000, 90_000)
@@ -15,7 +15,7 @@ defmodule Membrane.MPEGTS.Muxer.PESTest do
   end
 
   test "oversized audio PES packets raise" do
-    payload = :binary.copy(<<0>>, 0xFFFF)
+    payload = :binary.copy(<<0>>, 0xFFFFFF)
 
     assert_raise ArgumentError, ~r/only allowed for video streams/, fn ->
       PES.serialize(payload, :audio, 90_000, 90_000)
