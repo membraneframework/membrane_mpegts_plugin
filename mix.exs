@@ -1,7 +1,7 @@
 defmodule Membrane.MPEGTS.MixProject do
   use Mix.Project
 
-  @version "0.6.2"
+  @version "0.6.3"
   @github_url "https://github.com/membraneframework/membrane_mpegts_plugin"
 
   def project do
@@ -45,7 +45,7 @@ defmodule Membrane.MPEGTS.MixProject do
 
   defp deps do
     [
-      {:membrane_core, "~> 1.2.3"},
+      {:membrane_core, "~> 1.2"},
       {:membrane_aac_plugin, "~> 0.19.0"},
       {:membrane_h26x_plugin, "~> 0.10.6"},
       {:membrane_timestamp_queue, "~> 0.2.2"},
