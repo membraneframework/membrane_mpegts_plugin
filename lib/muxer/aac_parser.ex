@@ -81,7 +81,7 @@ defmodule Membrane.MPEGTS.Muxer.AACParser do
     frame_length = parsing_state.next_frame_length - @header_size
 
     case parsing_state.left_to_parse do
-      <<frame::binary-size(frame_length), rest::binary>> ->
+      <<frame::binary-size(^frame_length), rest::binary>> ->
         {:ok, parsing_state.frame_payload <> frame, rest}
 
       _other ->
