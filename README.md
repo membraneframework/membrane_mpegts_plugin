@@ -1,6 +1,7 @@
 # Membrane Multimedia Framework: MPEG-TS
 
 [![Star Membrane on GitHub ★](https://img.shields.io/github/stars/membraneframework/membrane_core?style=flat&logo=github&label=Star%20Membrane%20on%20GitHub%20%E2%98%85&color=blue)](https://github.com/membraneframework/membrane_core)
+[![API Docs](https://img.shields.io/badge/api-docs-yellow.svg?style=flat)](https://hexdocs.pm/membrane_mpegts_plugin)
 [![Hex.pm](https://img.shields.io/hexpm/v/membrane_mpegts_plugin.svg)](https://hex.pm/packages/membrane_mpegts_plugin)
 [![CI](https://github.com/membraneframework/membrane_mpegts_plugin/actions/workflows/ci.yml/badge.svg)](https://github.com/membraneframework/membrane_mpegts_plugin/actions/workflows/ci.yml)
 
